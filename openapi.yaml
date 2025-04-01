@@ -1,0 +1,32 @@
+openapi: 3.0.1
+info:
+  title: Svetlana Journal API
+  version: 1.0.0
+paths:
+  /journal/update:
+    post:
+      summary: Обновить журнал клиента
+      operationId: updateJournal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                session_data:
+                  type: object
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
