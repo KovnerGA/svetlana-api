@@ -1,21 +1,20 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from pydantic import BaseModel
 from google_drive_utils import update_journal
 
 app = FastAPI()
 
+class JournalEntry(BaseModel):
+    user_id: str
+    session_data: dict
+
 @app.post("/journal/update")
-async def update_journal_entry(request: Request):
-    data = await request.json()
-    user_id = data.get("user_id")
-    session_data = data.get("session_data")
-
+async def update_journal_entry(entry: JournalEntry):
     print("📥 Получен запрос:")
-    print(f"user_id: {user_id}")
-    print(f"session_data: {session_data}")
+    print(f"user_id: {entry.user_id}")
+    print(f"session_data: {entry.session_data}")
 
-    if not user_id or not session_data:
-        return {"error": "Missing user_id or session_data"}
+    update_journal(entry.user_id, entry.session_data)
 
-    update_journal(user_id, session_data)
-
-    return {"status": "success", "message": f"Журнал обновлён для {user_id}"}
+    return {"status": "success", "message": f"Журнал обновлён для {entry.user_id}"}
+ 
