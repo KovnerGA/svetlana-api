@@ -7,7 +7,7 @@ app = FastAPI()
 class JournalEntry(BaseModel):
     user_id: str
     session_data: dict
-    mory_entry: str = ""  # Добавлено новое поле
+    mory_entry: str = ""
 
 @app.post("/journal/update")
 async def update_journal_entry(entry: JournalEntry):
